@@ -1,13 +1,12 @@
 """
-Script Overview:
-- Loads environment variables and validates `GROQ_API_KEY`.
-- Creates a Groq chat model and a DuckDuckGo web-search tool.
-- Builds a LangChain agent with a system prompt and tool access.
-- Sends a user question to the agent and prints the final response.
+Simple LangChain + Groq agent example.
 
-Usage:
-- Run this script directly to execute a sample query.
-- Update the sample question in `main()` for quick testing.
+What it does:
+- Loads environment variables from `.env`.
+- Validates that `GROQ_API_KEY` is set.
+- Creates a `ChatGroq` model and a DuckDuckGo search tool.
+- Builds an agent with a concise system prompt.
+- Runs one sample question and prints the final assistant response.
 """
 
 import os
@@ -19,13 +18,14 @@ from langchain.agents import create_agent
 
 # This example shows how to build a simple ReAct agent with ChatGroq and a web search tool.
 def build_agent():
+    """Create and return a configured LangChain agent."""
     load_dotenv()
 
-    # Ensure the API key is available at runtime, otherwise the agent won't work.
+    # Fail fast when credentials are missing.
     if not os.getenv("GROQ_API_KEY"):
         raise ValueError("Missing GROQ_API_KEY. Please set it in .env or environment variables.")
 
-    # LLM configuration - adjust model name and parameters as needed.
+    # Configure the Groq chat model.
     llm = ChatGroq(
         model="qwen/qwen3-32b",
         temperature=0,
@@ -34,18 +34,18 @@ def build_agent():
         max_retries=2,
     )
 
-    # Tool configuration - DuckDuckGo search for web queries. Adjust num_results as needed.
+    # Add DuckDuckGo search as the external tool.
     ddg = DuckDuckGoSearchResults(num_results=5)
     tools = [ddg]
 
-    # Prompt configuration - system prompt sets the agent's behavior, and we include a placeholder for the conversation history.
+    # Keep instructions brief and response-focused.
     system_prompt = (
         "You are an assistant. Reply based on the user question.\n"
         "Use web search when needed, and cite what you found.\n"
         "Format the final answer in Markdown."
     )
 
-    # Create the agent with the specified LLM, tools, and system prompt.
+    # Create the agent with model, tools, and prompt.
     agent = create_agent(
         model=llm,
         tools=tools,
@@ -57,6 +57,7 @@ def build_agent():
 
 # Helper function to run a question through the agent and print the final response.
 def ask_question(agent, question: str):
+    """Invoke the agent with one user question and print the final message."""
     print("\n" + "=" * 90)
     print(f"USER: {question}\n")
 
@@ -69,6 +70,7 @@ def ask_question(agent, question: str):
 
 # Main function to build the agent and run a sample question.
 def main():
+    """Build the agent and run a sample query."""
     agent = build_agent()
     ask_question(agent, "Who won the India vs New Zealand finals in CT 2025?")
 
