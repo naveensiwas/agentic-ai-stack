@@ -1,12 +1,13 @@
 """
-Script overview
----------------
-This module runs a 3-step multi-agent investment workflow:
-1) Web agent gathers qualitative market/news context via DuckDuckGo.
-2) Finance agent gathers structured stock metrics via yfinance tools.
-3) Supervisor synthesizes both outputs into a final recommendation.
+Multi-agent investment workflow using LangChain + LangGraph + Groq.
 
-Tech stack: LangChain agents, LangGraph orchestration, Groq Chat model.
+What it does:
+- Loads environment variables from `.env`.
+- Creates one shared `ChatGroq` model for all agents.
+- Defines tools for web search and stock data retrieval.
+- Builds two specialized agents (web research + finance analysis).
+- Orchestrates both agents with LangGraph and synthesizes a final recommendation.
+- Runs one sample investment query and prints the final response.
 """
 
 import os
@@ -22,19 +23,24 @@ import operator
 import yfinance as yf
 import json
 
-# Initialize environment variables from .env (e.g., GROQ_API_KEY).
+# Load environment variables from .env (for example, GROQ_API_KEY).
 load_dotenv()
 
-# Shared LLM for all agents in this script.
+# Create one shared LLM instance used by all agents.
 llm = ChatGroq(
     model="qwen/qwen3-32b",
     api_key=os.getenv("GROQ_API_KEY"),
 )
 
 # ── Tools ─────────────────────────────────────────────────────────────────────
+# Tools are defined as functions decorated with @tool.
+# - They can be invoked by agents during their reasoning process.
+# - Here we define tools for web search and stock data retrieval.
 
-# Web search utility wrapped as a tool callable by the web agent.
+
+# Shared web search utility used by the web tool.
 web_search = DuckDuckGoSearchRun()
+
 
 @tool
 def search_web(query: str) -> str:
@@ -99,8 +105,12 @@ def get_company_info(ticker: str) -> str:
 
 
 # ── Agents ────────────────────────────────────────────────────────────────────
+# Agents are created with `create_agent`, which takes an LLM, a list of tools, and a system prompt.
+# - Each agent can invoke its tools during reasoning, and the system prompt guides its behavior and response formatting.
+# - Here we create two agents: one focused on qualitative web research, and another focused on quantitative financial data retrieval.
+# - The supervisor node later will synthesize outputs from both agents to generate a final investment recommendation.
 
-# Web agent focuses on qualitative signal collection from public web sources.
+# Create specialist agents for qualitative and quantitative analysis.
 web_agent = create_agent(
     model=llm,
     tools=[search_web],
@@ -110,7 +120,6 @@ web_agent = create_agent(
     )
 )
 
-# Finance agent focuses on quantitative retrieval and tabular presentation.
 finance_agent = create_agent(
     model=llm,
     tools=[get_stock_price, get_stock_fundamentals, get_analyst_recommendations, get_company_info],
@@ -123,16 +132,25 @@ finance_agent = create_agent(
 
 
 # ── LangGraph State & Orchestrator ────────────────────────────────────────────
+# We define a shared state structure `AgentTeamState` that will be passed between graph nodes.
+# - Each node (agent) will read from this state, perform its task, and write its output back to the state for the next node to consume.
+# - The graph orchestrator will manage the flow of execution between the web agent, finance agent, and supervisor node,
+#   ensuring that outputs are combined effectively to produce a final recommendation.
+# - This structure allows us to maintain a clear separation of concerns while enabling collaboration between specialized agents in a cohesive workflow.
 
+# Define shared state passed between graph nodes.
 class AgentTeamState(TypedDict):
     """Shared graph state passed node-to-node during orchestration."""
-    # Message history merged across nodes; operator.add appends lists.
+    # Merge message history across nodes.
     messages: Annotated[List, operator.add]
-    # Output from web research node.
+
+    # Output from the web research node.
     web_research: str
-    # Output from finance analysis node.
+
+    # Output from the finance analysis node.
     financial_data: str
-    # Final synthesized recommendation from supervisor node.
+
+    # Final synthesized recommendation from the supervisor node.
     final_response: str
 
 
@@ -183,6 +201,12 @@ Always include sources and use markdown tables where applicable.
 
 
 # ── Build the Graph ───────────────────────────────────────────────────────────
+# We construct a LangGraph `StateGraph` to orchestrate the flow between our agents.
+# - Each node corresponds to one of our agents or the supervisor.
+# - Edges define the execution order: web agent → finance agent → supervisor → END.
+# - The graph will manage the state transitions and ensure that outputs from each node are available to subsequent nodes,
+#   enabling a cohesive multi-agent workflow that culminates in a final investment recommendation.
+# - This structure allows us to maintain modularity while facilitating collaboration between specialized agents in a clear and organized manner.
 
 builder = StateGraph(AgentTeamState)
 
@@ -190,7 +214,7 @@ builder.add_node("web_agent", web_agent_node)
 builder.add_node("finance_agent", finance_agent_node)
 builder.add_node("supervisor", supervisor_node)
 
-# Both agents run first (sequentially), then supervisor synthesizes
+# Run web -> finance -> supervisor, then finish.
 builder.set_entry_point("web_agent")
 builder.add_edge("web_agent", "finance_agent")
 builder.add_edge("finance_agent", "supervisor")
@@ -198,11 +222,17 @@ builder.add_edge("supervisor", END)
 
 graph = builder.compile()
 
-
 # ── Run ───────────────────────────────────────────────────────────────────────
+# Finally, we run a sample query through the graph when the script is executed directly.
+# - The initial state contains the user's query as the first message.
+# - The graph orchestrator will manage the execution flow, passing state between nodes and ultimately producing
+#   a final recommendation that is printed to the console.
+# - This allows us to see the multi-agent collaboration in action, with each agent contributing its expertise to the final output.
+# - In a real application, you could replace the hardcoded query with user input for an interactive experience.
 
+# Run a sample analysis when the script is executed directly.
 if __name__ == "__main__":
-    # Demo query; replace with user input for interactive use.
+    # Sample query; replace with user input for interactive use.
     query = "Analyze companies like Tesla, NVDA, Apple and suggest which to buy for long term"
 
     print("=" * 70)
@@ -210,7 +240,7 @@ if __name__ == "__main__":
     print("=" * 70)
     print(f"\n📌 Query: {query}\n")
 
-    # Seed initial graph state and execute synchronously.
+    # Seed initial graph state and execute the workflow.
     initial_state: AgentTeamState = {
         "messages": [HumanMessage(content=query)],
         "web_research": "",
