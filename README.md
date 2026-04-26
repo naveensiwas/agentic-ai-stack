@@ -445,4 +445,5 @@ pip install yfinance
 
 - External API/tool outputs may change over time.
 - Financial output is informational only, not investment advice.
+- Always verify with up-to-date sources before making decisions based on agent outputs.
 
