@@ -1,9 +1,9 @@
 # Agentic AI Workbench
 
-### Agentic AI examples with LangChain + LangGraph + Groq: 
-- A simple agent.
-- An agentic RAG assistant.
-- Multi-agent orchestration.
+### 🚀 Agentic AI examples with LangChain + LangGraph + Groq:
+- ✅ A simple agent
+- 📚 An agentic RAG assistant
+- 🧠 Multi-agent orchestration
 
 This repository contains three Python agent workflows built with `LangChain/LangGraph and Groq`:
 
@@ -13,7 +13,7 @@ This repository contains three Python agent workflows built with `LangChain/Lang
 
 ---
 
-## 1) Repository Structure
+## 📁 1) Repository Structure
 
 ```text
 agentic-ai-workbench/
@@ -27,9 +27,9 @@ agentic-ai-workbench/
 
 ---
 
-## 2) High-Level Architecture
+## 🏗️ 2) High-Level Architecture
 
-## A. `simple_agent.py`
+## A. `simple_agent.py` ✅
 **Goal:** Demonstrates a minimal LangChain agent with Groq + DuckDuckGo.
 
 Flow:
@@ -42,7 +42,7 @@ Flow:
 
 ---
 
-## B. `retrieval_agent.py`
+## B. `retrieval_agent.py` 📚
 **Goal:** Markdown Q&A with local knowledge base + web fallback.
 
 Flow:
@@ -57,7 +57,7 @@ Flow:
 
 ---
 
-## C. `multi_agent.py`
+## C. `multi_agent.py` 🧠
 **Goal:** Multi-agent stock analysis with orchestration in LangGraph.
 
 Flow:
@@ -81,7 +81,7 @@ Flow:
 
 ---
 
-## 3) Dependencies
+## 📦 3) Dependencies
 
 From current code usage:
 
@@ -101,7 +101,7 @@ From current code usage:
 
 ---
 
-## 4) Environment Variables
+## 🔐 4) Environment Variables
 
 Create a `.env` file in project root:
 
@@ -111,7 +111,7 @@ GROQ_API_KEY=your_groq_api_key_here
 
 ---
 
-## 5) Setup Instructions
+## 🛠️ 5) Setup Instructions
 
 ```bash
 python -m venv .venv
@@ -121,7 +121,7 @@ pip install -r requirements.txt
 
 ---
 
-## 6) How to Run
+## ▶️ 6) How to Run
 
 ### A. Run simple agent
 
@@ -148,7 +148,7 @@ python multi_agent.py
 
 ---
 
-## 7) Script-by-Script Details
+## 🔎 7) Script-by-Script Details
 
 ## `simple_agent.py`
 - Uses `DuckDuckGoSearchResults(num_results=5)`.
@@ -168,7 +168,40 @@ python multi_agent.py
 
 ---
 
-## 8) Troubleshooting
+## 🧪 8) Sample Output (Placeholder)
+
+> Replace this section with real output after running each script.
+
+### `simple_agent.py` output
+
+```text
+[PLACEHOLDER]
+USER: <sample query>
+ASSISTANT:
+<sample response from simple agent>
+```
+
+### `retrieval_agent.py` output
+
+```text
+[PLACEHOLDER]
+USER: <sample markdown question>
+ASSISTANT:
+<sample response using KB + optional web fallback>
+```
+
+### `multi_agent.py` output
+
+```text
+[PLACEHOLDER]
+QUERY: <sample investment query>
+FINAL RECOMMENDATION:
+<sample synthesized recommendation>
+```
+
+---
+
+## 🧯 9) Troubleshooting
 
 ### Error: Missing `GROQ_API_KEY`
 - Ensure `.env` exists and has a valid key.
@@ -199,7 +232,7 @@ pip install yfinance
 
 ---
 
-## 9) Quick Start Checklist
+## ✅ 10) Quick Start Checklist
 
 - [ ] Create and activate virtual environment
 - [ ] Install dependencies
@@ -211,7 +244,7 @@ pip install yfinance
 
 ---
 
-## 10) Usage Notes
+## 📝 11) Usage Notes
 
 - External API/tool outputs may change over time.
 - Financial output is informational only, not investment advice.
