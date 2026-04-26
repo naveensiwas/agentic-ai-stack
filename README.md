@@ -1,11 +1,11 @@
 # Agentic AI Workbench
 
 ### Agentic AI examples with LangChain + LangGraph + Groq: 
-- A simple agent, 
-- An agentic RAG assistant, 
+- A simple agent.
+- An agentic RAG assistant.
 - Multi-agent orchestration.
 
-This repository contains three Python agent workflows built with LangChain/LangGraph and Groq:
+This repository contains three Python agent workflows built with `LangChain/LangGraph and Groq`:
 
 - `simple_agent.py`: single-agent web search assistant
 - `retrieval_agent.py`: retrieval-augmented Markdown assistant (PDF + LanceDB + web fallback)
@@ -138,6 +138,7 @@ python retrieval_agent.py
 Notes:
 - Requires `markdown-guide-sample.pdf` in project root.
 - First run builds the LanceDB index; later runs reuse it.
+- **Source PDF:** https://www.markdownguide.org/assets/markdown-guide-sample.pdf
 
 ### C. Run multi-agent investment workflow
 
@@ -192,6 +193,9 @@ pip install yfinance
 ### PDF not found in retrieval flow
 - Place `markdown-guide-sample.pdf` in root:
   - `agentic-ai-workbench/markdown-guide-sample.pdf`
+
+### Download the sample PDF if missing:
+- **Source PDF:** https://www.markdownguide.org/assets/markdown-guide-sample.pdf
 
 ---
 
