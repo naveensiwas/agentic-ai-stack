@@ -1,6 +1,6 @@
 # Agentic AI Workbench
 
-### Agentic AI examples with LangChain, LangGraph, and Groq: simple web-search agent, RAG-based Markdown assistant with LanceDB, and a multi-agent investment workflow.
+### Agentic AI examples with LangChain, LangGraph, and Groq: simple web-search agent, agentic-RAG-based Markdown assistant with LanceDB, and a multi-agent investment workflow.
 
 This repository contains three Python agent workflows built with LangChain/LangGraph and Groq:
 
