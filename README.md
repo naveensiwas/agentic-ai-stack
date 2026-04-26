@@ -13,7 +13,7 @@ This repository contains three Python agent workflows built with LangChain/LangG
 ## 1) Repository Structure
 
 ```text
-agentic-ai/
+agentic-ai-workbench/
 ├── simple_agent.py
 ├── retrieval_agent.py
 ├── multi_agent.py
