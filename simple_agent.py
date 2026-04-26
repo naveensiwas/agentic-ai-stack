@@ -16,6 +16,9 @@ from langchain_community.tools import DuckDuckGoSearchResults
 from langchain.agents import create_agent
 
 
+# ── Agents ────────────────────────────────────────────────────────────────────
+# Agent construction function that sets up the model, tools, and system prompt.
+
 # This example shows how to build a simple ReAct agent with ChatGroq and a web search tool.
 def build_agent():
     """Create and return a configured LangChain agent."""
