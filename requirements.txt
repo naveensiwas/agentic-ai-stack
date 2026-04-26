@@ -1,24 +1,19 @@
-# Environment variables
-python-dotenv>=1.0.0
+python-dotenv
+langchain
+langchain-core
+langchain-community
+langchain-groq
+langgraph
+pypdf
+langchain-text-splitters
+lancedb
+sentence-transformers
+langchain-huggingface
+ddgs
+yfinance
 
-# Core LangChain + provider
-langchain>=1.0.0
-langchain-core>=0.3.0
-langchain-community>=0.3.0
-langchain-groq>=1.1.2
-
-# LangGraph orchestration
-langgraph>=0.2.0
-
-# Retrieval stack
-pypdf>=4.0.0
-langchain-text-splitters>=0.3.0
-lancedb>=0.8.0
-sentence-transformers>=2.6.0
-langchain-huggingface>=0.1.0
-
-# Web search backend
-ddgs>=9.0.0
-
-# Finance tools
-yfinance>=0.2.0
+# Resolve dependicies issues.
+numpy==1.26.4
+torch==2.2.2
+sentence-transformers==2.7.0
+transformers==4.40.2
