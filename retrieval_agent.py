@@ -12,8 +12,9 @@ Notes:
 - Re-ingests vector data on startup via `LanceDB.from_documents(...)`.
 """
 
-
 import os
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
+
 from pathlib import Path
 from dotenv import load_dotenv
 from langchain_groq import ChatGroq
@@ -24,6 +25,9 @@ from langchain_community.vectorstores import LanceDB
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_core.tools import tool
 from langchain.agents import create_agent
+
+import warnings
+warnings.filterwarnings("ignore", category=FutureWarning)
 
 
 # Load local environment variables (e.g., GROQ_API_KEY).
@@ -93,7 +97,7 @@ def thai_recipe_kb_search(query: str) -> str:
     Search the local Thai recipe PDF for relevant chunks.
     Prefer this tool first for Thai cuisine and recipe questions.
     """
-    docs = retriever.get_relevant_documents(query)
+    docs = retriever.invoke(query)
     if not docs:
         return "No relevant knowledge-base results found."
 

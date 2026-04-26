@@ -27,7 +27,7 @@ load_dotenv()
 
 # Shared LLM for all agents in this script.
 llm = ChatGroq(
-    model="qwen-2.5-32b",
+    model="qwen/qwen3-32b",
     api_key=os.getenv("GROQ_API_KEY"),
 )
 

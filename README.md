@@ -212,14 +212,19 @@ python multi_agent.py
 ### A. `simple_agent.py` Output
 
 ```
+python simple_agent.py
+
 ==========================================================================================
 USER: Who won the India vs New Zealand finals in CT 2025?
 
-A:
+ASSISTANT:
 
-Based on the search results, India won the ICC Men's T20 Cricket World Cup 2024 final against South Africa (not New Zealand). India defeated South Africa by 6 runs in the final held in Barbados.
+India won the Champions Trophy (CT) 2025 final against New Zealand by 4 wickets. The match, held in Dubai on March 9, 2025, saw India chase down a target of 252, securing their third Champions Trophy title. Key highlights include Rohit Sharma's 76-run innings and Axar Patel's crucial contributions. 
 
-However, if you're asking about a specific India vs New Zealand final in CT 2025, please note that this information may not be available yet as of the current date. You could try rephrasing the question with more specific details about the tournament or match date for accurate results.
+For details:  
+- [ESPNcricinfo Match Report](https://www.espncricinfo.com/series/icc-champions-trophy-2024-25-1459031/india-vs-new-zealand-final-1466428/live-cricket-score)  
+- [BBC Sport Summary](https://www.bbc.com/sport/cricket/live/c1lv2p7nnmzt)  
+- [Zee News Highlights](https://zeenews.india.com/cricket/live-updates/ind-vs-nz-final-live-cricket-score-and-updates-icc-champions-trophy-2025-india-vs-new-zealand-odi-match-full-scorecard-dubai-international-stadium-rohit-sharma-vs-mitchell-santner-virat-kohli-2869348.html?fromapp=yes)
 ```
 
 ---
@@ -264,51 +269,122 @@ Serves: 2-3 people
 ### C. `multi_agent.py` Output
 
 ```
-==========================================================================================
-USER: Analyze Tesla stock (TSLA) for investment recommendation
+python multi_agent.py
 
-==========================================================================================
-Running Web Research...
-[Web Agent Processing...]
+======================================================================
+🤖 Multi-Agent Investment Analyst (LangChain + LangGraph + Groq)
+======================================================================
 
-==========================================================================================
-Running Financial Analysis...
-[Finance Agent Processing...]
+📌 Query: Analyze companies like Tesla, NVDA, Apple and suggest which to buy for long term
 
-==========================================================================================
-SUPERVISOR SYNTHESIS:
 
-**Stock:** Tesla (TSLA)
+🌐 [Web Agent] Searching the web for latest insights...
 
-**Web Research Findings [WEB-1]:**
-- Latest news indicates strong EV market recovery
-- Analyst sentiment: Mixed to Positive
-- Key events: Q4 earnings beat expectations
 
-**Financial Metrics [FIN-1]:**
-- Current Price: $245.50
-- P/E Ratio: 68.5
-- Market Cap: $780B
-- 52-week Range: $138 - $278
-- Dividend Yield: 0%
+📈 [Finance Agent] Fetching financial data...
 
-**Technical Indicators:**
-- Moving Average (50d): $242.30
-- RSI (14): 58 (Neutral)
-- Volume Trend: Above Average
 
-**FINAL RECOMMENDATION:**
+🧠 [Supervisor] Synthesizing findings and generating final recommendation...
 
-**HOLD / CAUTIOUS BUY** (for long-term investors)
 
-Rationale:
-- Strong fundamentals and market position
-- Valuation is elevated (P/E > 60)
-- Recent positive earnings momentum
-- Recommend dollar-cost averaging for new positions
-- Monitor Q1 delivery numbers closely
+======================================================================
+📊 FINAL RECOMMENDATION
+======================================================================
+Okay, I need to create a comprehensive investment recommendation based on the provided research on Tesla (TSLA), NVIDIA (NVDA), and Apple (AAPL). Let me start by understanding the data given from both the Web Research Findings and the Financial Data & Analysis.
 
-*Disclaimer: This analysis is for informational purposes only, not investment advice.*
+First, the Web Research highlights each company's strengths and risks. Tesla has strong financial reserves and global expansion plans but faces sales volatility and product reliability issues. NVIDIA is leading in AI with high market cap but has regulatory risks and a high valuation. Apple has a strong ecosystem and stable revenue but faces market saturation and regulatory challenges. The recommendation from the Web Research suggests NVIDIA for growth, Apple for stability, and Tesla as a high-risk option.
+
+Next, the Financial Data provides metrics like P/E ratios, revenue, EPS, etc. NVIDIA has the highest market cap at $5.06T with a strong P/E of 42.59, while Apple has a P/E of 34.35. Tesla's P/E is very high at 345.23. Analyst ratings also show NVIDIA having the strongest consensus with many "Strong Buy" ratings, followed by Apple and Tesla more cautiously.
+
+My task is to create a summary table comparing key metrics, list pros and cons for each, and provide a clear recommendation. Let me start by structuring the summary table. The key metrics should include Market Cap, P/E Ratio, Revenue (Q3 2024), Profit Margin, 52-Week Range, and Analyst Ratings. I'll need to extract these from the Financial Data section.
+
+For the pros and cons, I'll need to combine the strengths and risks from the Web Research with the financial metrics. For example, Tesla's pros include financial reserves and global expansion, but cons are high P/E and sales volatility. NVIDIA's pros are AI dominance and high profit margins, but cons are regulatory issues and high valuation. Apple's pros are ecosystem and stable revenue, cons are market saturation and competition.
+
+The recommendation section needs to align with the previous summaries, suggesting allocations based on risk tolerance. The example action plan from the Financial Data suggests 50% NVDA, 30% AAPL, and avoiding TSLA unless high risk is acceptable. I should explain the rationale, such as NVIDIA's AI growth potential, Apple's stability, and Tesla's high risk.
+
+I should also ensure that sources are cited, but since this is a synthetic analysis, maybe just reference the provided data. Use markdown tables for the summary and pros/cons. Need to be clear and concise, making sure the justification for each recommendation is backed by the data presented.
+
+Let me check if I have all the necessary data points. For each company, the table needs Market Cap, P/E, Revenue, Profit Margin, 52-Week Range, and Analyst Ratings. The pros and cons should integrate both qualitative and quantitative aspects. The recommendation should be actionable, advising percentages and explaining why each stock is chosen or avoided.
+
+I think that's all. Now I'll structure the summary table, then the pros and cons, and then the recommendation with justification. Make sure to use clear markdown formatting and check for any errors in the data.
+
+# Investment Analysis Summary: Tesla (TSLA), NVIDIA (NVDA), Apple (AAPL)  
+
+---
+
+## **1. Summary Table of Key Metrics**  
+
+| **Metric**               | **Tesla (TSLA)**       | **NVIDIA (NVDA)**      | **Apple (AAPL)**       |  
+|--------------------------|------------------------|------------------------|------------------------|  
+| **Market Cap**           | $1.41T                 | $5.06T                 | $3.98T                 |  
+| **P/E Ratio**            | 345.23 (very high)     | 42.59 (growth-oriented)| 34.35 (balanced)       |  
+| **Q3 2024 Revenue**      | $97.9B                 | $215.9B                | $435.6B                |  
+| **Profit Margin**        | 3.9%                   | 55.6% (industry-leading)| 27.0%                 |  
+| **52-Week Price Range**  | $270.78 - $498.83      | $104.08 - $212.19      | $193.25 - $288.62      |  
+| **Analyst Ratings**      | Mixed (5 SB, 18 B, 18 H)| Strong Bullish (9 SB, 47 B, 2 H)| Positive (7 SB, 24 B, 14 H) |  
+
+---
+
+## **2. Pros and Cons for Long-Term Investment**  
+
+### **Tesla (TSLA)**  
+**Pros**:  
+- **Financial Reserves**: $37B in cash supports R&D and expansion.  
+- **Global Expansion**: $2–3B India factory investment could unlock growth.  
+- **EV Leadership**: Dominant brand in electric vehicles.  
+
+**Cons**:  
+- **High Valuation**: P/E of 345.23 reflects overvaluation risks.  
+- **Sales Volatility**: 20% forecasted sales drop in 2024.  
+- **Quality Concerns**: Frequent Cybertruck recalls and depreciation issues.  
+
+---
+
+### **NVIDIA (NVDA)**  
+**Pros**:  
+- **AI/ML Leadership**: Powers 90% of AI infrastructure with $100B+ investments.  
+- **High Profitability**: 55.6% profit margin, industry-leading.  
+- **Diversified Growth**: Robotics, self-driving, and biotech investments.  
+
+**Cons**:  
+- **Valuation Risks**: High P/E of 42.59; sensitive to AI growth slowdowns.  
+- **Regulatory Scrutiny**: Export restrictions (e.g., China) may limit expansion.  
+- **Competitive Pressure**: AMD/Intel gaining traction in AI chips.  
+
+---
+
+### **Apple (AAPL)**  
+**Pros**:  
+- **Ecosystem Lock-In**: Strong hardware-software integration and brand loyalty.  
+- **Stable Cash Flows**: Services revenue provides consistent returns.  
+- **Leadership Continuity**: Strategic stability post-Tim Cook transition.  
+
+**Cons**:  
+- **Market Saturation**: iPhone growth plateauing in mature markets.  
+- **Innovation Risks**: Pressure from competitors like Samsung and Google.  
+- **Regulatory Challenges**: Antitrust lawsuits threaten App Store revenue.  
+
+---
+
+## **3. Investment Recommendation**  
+
+### **Recommended Allocation**  
+| **Stock**          | **Allocation** | **Rationale**                                                                 |  
+|--------------------|----------------|-------------------------------------------------------------------------------|  
+| **NVIDIA (NVDA)**  | **50%**        | **Strong Buy**: AI and semiconductors represent secular growth. High profit margins and dominant market position justify long-term upside. Monitor regulatory risks. |  
+| **Apple (AAPL)**   | **30%**        | **Buy**: Safe-haven stock with stable returns. Strong ecosystem and services revenue offset innovation pressures. Lower volatility compared to NVDA. |  
+| **Tesla (TSLA)**   | **Avoid or ~20%** | **Hold**: High-risk/high-reward profile. Only consider if India expansion and autonomy bets succeed. Depreciation and recall risks outweigh current valuations. |  
+
+---
+
+### **Final Justification**  
+1. **NVIDIA** is the top pick for long-term growth due to its leadership in AI infrastructure, which is central to the next decade of tech innovation. Its robust profit margins and diversified portfolio (gaming, robotics) reduce sector-specific risks.  
+2. **Apple** provides stability and predictable cash flows, making it ideal for risk-averse investors. Its ecosystem lock-in ensures customer retention, even if growth slows.  
+3. **Tesla** should be approached cautiously. While its EV dominance and global expansion plans offer upside, current risks (valuation, quality control) outweigh potential rewards for most long-term investors.  
+
+**Diversification Note**: Balancing 50% NVDA and 30% AAPL creates a mix of high-growth and defensive assets. A small Tesla allocation (~20%) could be considered for speculative gains, but only with strict risk management.  
+
+**Sources**: Financial data and analyst ratings from provided research. Valuation metrics and sector analysis synthesized from Web Research Findings.
 ```
 
 ---
