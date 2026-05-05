@@ -1,4 +1,4 @@
-# Agentic AI Workbench
+# Agentic AI Workbench — Tool‑Based, No MCP
 
 ### 🚀 Agentic AI examples with LangChain + LangGraph + Groq:
 - ✅ A simple agent
@@ -98,6 +98,106 @@ From current code usage:
 - `langchain-huggingface`
 - `ddgs`
 - `yfinance`
+
+---
+
+## 🔌 3.1) Components Analysis:
+
+This codebase **does NOT use Model Context Protocol (MCP) servers**. Instead, it uses:
+- **External Third-Party Tools** (wrapped via LangChain)
+- **Custom LangChain Tool Wrappers** (not MCP protocol)
+- **Standard LangChain/LangGraph Framework** (not MCP)
+
+### Detailed Component Breakdown
+
+#### **External Third-Party Tools (NOT MCP)**
+
+| Component | Used In | Source | Type |
+|-----------|---------|--------|------|
+| `DuckDuckGoSearchResults` / `DuckDuckGoSearchRun` | `simple_agent.py`, `retrieval_agent.py`, `multi_agent.py` | LangChain Community | Web Search Tool |
+| `yfinance` | `multi_agent.py` | Yahoo Finance (3rd-party API) | Financial Data Tool |
+| `PyPDFLoader` | `retrieval_agent.py` | LangChain Community | Document Loader |
+| `LanceDB` | `retrieval_agent.py` | External Vector Store | Vector Database |
+| `HuggingFaceEmbeddings` | `retrieval_agent.py` | HuggingFace (3rd-party) | Embeddings API |
+
+**Key Point:** All external tools are simple HTTP/REST API wrappers, **NOT MCP servers**. DuckDuckGo, for example, is called via LangChain's simple tool wrapper, not through MCP's JSON-RPC protocol.
+
+#### **Custom In-House Tools (NOT MCP, Just LangChain Tools)**
+
+| Tool | Script | Implementation |
+|------|--------|-----------------|
+| `markdown_kb_search` | `retrieval_agent.py` | Custom tool using `@tool` decorator |
+| `search_web` | `multi_agent.py` | Custom wrapper around DuckDuckGo |
+| `get_stock_price` | `multi_agent.py` | Custom wrapper around yfinance |
+| `get_stock_fundamentals` | `multi_agent.py` | Custom wrapper around yfinance |
+| `get_analyst_recommendations` | `multi_agent.py` | Custom wrapper around yfinance |
+| `get_company_info` | `multi_agent.py` | Custom wrapper around yfinance |
+
+**Key Point:** These are **LangChain tools** using the `@tool` decorator. They are simple Python functions that format and call external APIs.
+
+#### **Framework & Orchestration (NOT MCP)**
+
+| Component | Used In | Type |
+|-----------|---------|------|
+| `create_agent` | All scripts | LangChain Agent Factory |
+| `StateGraph` | `multi_agent.py` | LangGraph Orchestrator |
+| `ChatGroq` | All scripts | LLM Provider (Groq API) |
+
+**Key Point:** Orchestration uses **LangGraph**, which is LangChain's state-based graph framework for multi-agent workflows.
+
+### Architecture Overview
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                    Agentic AI Workbench                             │
+│                   (LangChain/LangGraph)                             │
+├─────────────────────────────────────────────────────────────────────┤
+│                                                                     │
+│  External APIs (via LangChain wrappers)                             │
+│  ├─ DuckDuckGo (HTTP REST)                                          │
+│  ├─ yfinance (HTTP REST)                                            │
+│  ├─ HuggingFace (HTTP REST)                                         │
+│  └─ LanceDB (Local vector store)                                    │
+│                                                                     │
+│  Custom In-House Tools (LangChain @tool decorator)                  │
+│  ├─ markdown_kb_search (LanceDB retriever wrapper)                  │
+│  ├─ search_web (DuckDuckGo wrapper)                                 │
+│  ├─ get_stock_price (yfinance wrapper)                              │
+│  ├─ get_stock_fundamentals (yfinance wrapper)                       │
+│  ├─ get_analyst_recommendations (yfinance wrapper)                  │
+│  └─ get_company_info (yfinance wrapper)                             │
+│                                                                     │
+│  Multi-Agent Orchestration (LangGraph)                              │
+│  ├─ Web Agent Node (custom in-house logic)                          │
+│  ├─ Finance Agent Node (custom in-house logic)                      │
+│  └─ Supervisor Node (custom in-house logic)                         │
+│                                                                     │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+### What is MCP and Why It's NOT Used Here
+
+**Model Context Protocol (MCP)** is a standardized specification for:
+- JSON-RPC 2.0 based communication
+- Server/client separation with explicit protocol messages
+- Standardized resource, tool, and prompt definitions
+- Language-agnostic interoperability
+
+**Why MCP is NOT used here:**
+- ✅ **Simpler integration needed**: Direct API calls via LangChain wrappers work well for this use case
+- ✅ **Single-language codebase**: Python-only, no need for language-agnostic protocol
+- ✅ **Direct control preferred**: Custom tools give more flexibility than MCP's rigid structure
+- ✅ **Lower overhead**: LangChain tools are faster and simpler than MCP server/client handshaking
+
+### When You Might Want MCP
+
+Consider implementing MCP if you need:
+1. **Cross-language tool sharing** (Python tools used by Node.js, Go, etc.)
+2. **Separate tool deployment** (tools running as independent services)
+3. **Standardized tool interface** (for enterprise tool marketplaces)
+4. **Tool version management** (multiple versions running simultaneously)
+
+For this workbench, the current architecture is **optimal and appropriate**.
 
 ---
 
